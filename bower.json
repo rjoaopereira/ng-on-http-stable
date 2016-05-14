@@ -1,0 +1,24 @@
+{
+  "name": "ng-on-http-stable",
+  "version": "1.0.0",
+  "homepage": "https://github.com/rjoaopereira/ng-on-http-stable",
+  "authors": [
+    "Ricardo Pereira <rjoaopereira@gmail.com>"
+  ],
+  "description": "angular directive that renders when the $http service has no oustanding requests",
+  "main": "dist/build.js",
+  "keywords": [
+    "angular",
+    "render",
+    "$http",
+    "request"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
