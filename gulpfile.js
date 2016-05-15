@@ -4,7 +4,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
-var babel = require('babelify');
+var babelify = require('babelify');
 var ngTemplates = require('gulp-ng-templates');
 var del = require('del');
 var htmlmin = require('gulp-htmlmin');
@@ -27,7 +27,7 @@ function compile(watch) {
     var bundler = watchify(browserify({
         entries: 'src/ng-on-http-stable.js',
         debug: true
-    }).transform(babel));
+    }).transform(babelify));
 
     function rebundle() {
         bundler.bundle()
@@ -65,7 +65,7 @@ function test(done) {
         basePath: process.cwd(),
 
         // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
+        autoWatch: true,
 
         // testing framework to use (jasmine/mocha/qunit/...)
         frameworks: ['jasmine', 'browserify'],
@@ -75,19 +75,21 @@ function test(done) {
 
         // list of files / patterns to load in the browser
         files: [
-            { pattern: 'tests/*.js', watched: false },
-            { pattern: 'src/*.js', watched: false }
+            { pattern: 'node_modules/angular/angular.js'},
+            { pattern: 'node_modules/angular-mocks/angular-mocks.js'},
+            { pattern: 'src/**/*.js'},
+            { pattern: 'tests/**/*.js'}
         ],
 
         preprocessors: {
-            'src/*.js': ['browserify'],
-            'tests/*.js': ['browserify']
+            'src/**/*.js': ['browserify'],
+            'tests/**/*.js': ['browserify']
         },
 
         browserify: {
             debug: true,
             transform: [
-                babel,
+                babelify,
                 browserifyIstanbul({
                     instrumenter: isparta,
                     instrumenterConfig: {
@@ -126,13 +128,13 @@ function test(done) {
         // - PhantomJS
         // - IE (only Windows)
         browsers: [
-            'PhantomJS'
+            'PhantomJS2'
         ],
 
         // Which plugins to enable
         plugins: [
             'karma-jasmine',
-            'karma-phantomjs-launcher',
+            'karma-phantomjs2-launcher',
             'karma-chrome-launcher',
             'karma-coverage',
             'karma-browserify',

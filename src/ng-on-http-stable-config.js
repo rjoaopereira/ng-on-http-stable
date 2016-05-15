@@ -34,4 +34,4 @@ OnHttpStableConfig.$inject = [
     '$httpProvider'
 ];
 
-export default OnHttpStableConfig
+export default OnHttpStableConfig;

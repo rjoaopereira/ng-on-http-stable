@@ -1,73 +1,73 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="14"  lines-covered="13"  line-rate="0.9286"  branches-valid="8"  branches-covered="8"  branch-rate="1"  timestamp="1463248816190" complexity="0" version="0.1">
+<coverage lines-valid="18"  lines-covered="18"  line-rate="1"  branches-valid="8"  branches-covered="8"  branch-rate="1"  timestamp="1463317647091" complexity="0" version="0.1">
 <sources>
 	<source>/Users/ricardopereira/workspace/personal/ng-on-http-stable</source>
 </sources>
 <packages>
-	<package name="src"  line-rate="0.9286"  branch-rate="1" >
+	<package name="src"  line-rate="1"  branch-rate="1" >
 	<classes>
 		<class name="ng-on-http-stable-config.js"  filename="src/ng-on-http-stable-config.js"  line-rate="1"  branch-rate="1" >
 		<methods>
-			<method name="OnHttpStableConfig"  hits="1"  signature="()V" >
-				<lines><line number="7"  hits="1" /></lines>
+			<method name="OnHttpStableConfig"  hits="5"  signature="()V" >
+				<lines><line number="7"  hits="5" /></lines>
 			</method>
-			<method name="OutstandingRequestsInterceptor"  hits="1"  signature="()V" >
-				<lines><line number="8"  hits="1" /></lines>
+			<method name="OutstandingRequestsInterceptor"  hits="2"  signature="()V" >
+				<lines><line number="8"  hits="2" /></lines>
 			</method>
-			<method name="request"  hits="1"  signature="()V" >
-				<lines><line number="10"  hits="1" /></lines>
+			<method name="request"  hits="2"  signature="()V" >
+				<lines><line number="10"  hits="2" /></lines>
 			</method>
-			<method name="requestError"  hits="1"  signature="()V" >
-				<lines><line number="14"  hits="1" /></lines>
+			<method name="requestError"  hits="0"  signature="()V" >
+				<lines><line number="14"  hits="0" /></lines>
 			</method>
-			<method name="response"  hits="1"  signature="()V" >
-				<lines><line number="18"  hits="1" /></lines>
+			<method name="response"  hits="2"  signature="()V" >
+				<lines><line number="18"  hits="2" /></lines>
 			</method>
-			<method name="responseError"  hits="1"  signature="()V" >
-				<lines><line number="22"  hits="1" /></lines>
+			<method name="responseError"  hits="0"  signature="()V" >
+				<lines><line number="22"  hits="0" /></lines>
 			</method>
 		</methods>
 		<lines>
-			<line number="0"  hits="1"  branch="false" />
+			<line number="0"  hits="5"  branch="false" />
 			<line number="33"  hits="1"  branch="false" />
 		</lines>
 		</class>
 		<class name="ng-on-http-stable-directive.js"  filename="src/ng-on-http-stable-directive.js"  line-rate="1"  branch-rate="1" >
 		<methods>
-			<method name="ngOnHttpStableDirective"  hits="1"  signature="()V" >
-				<lines><line number="6"  hits="1" /></lines>
+			<method name="ngOnHttpStableDirective"  hits="2"  signature="()V" >
+				<lines><line number="6"  hits="2" /></lines>
 			</method>
-			<method name="link"  hits="1"  signature="()V" >
-				<lines><line number="8"  hits="1" /></lines>
+			<method name="link"  hits="2"  signature="()V" >
+				<lines><line number="8"  hits="2" /></lines>
 			</method>
-			<method name="(anonymous_3)"  hits="0"  signature="()V" >
-				<lines><line number="9"  hits="0" /></lines>
+			<method name="(anonymous_3)"  hits="1"  signature="()V" >
+				<lines><line number="9"  hits="1" /></lines>
 			</method>
 		</methods>
 		<lines>
-			<line number="0"  hits="1"  branch="false" />
+			<line number="0"  hits="2"  branch="false" />
 			<line number="20"  hits="1"  branch="false" />
 		</lines>
 		</class>
-		<class name="ng-on-http-stable-service.js"  filename="src/ng-on-http-stable-service.js"  line-rate="0.6667000000000001"  branch-rate="1" >
+		<class name="ng-on-http-stable-service.js"  filename="src/ng-on-http-stable-service.js"  line-rate="1"  branch-rate="1" >
 		<methods>
-			<method name="OnHttpStableService"  hits="1"  signature="()V" >
-				<lines><line number="6"  hits="1" /></lines>
+			<method name="OnHttpStableService"  hits="5"  signature="()V" >
+				<lines><line number="6"  hits="5" /></lines>
 			</method>
-			<method name="increaseOutsandingRequests"  hits="1"  signature="()V" >
-				<lines><line number="13"  hits="1" /></lines>
+			<method name="increaseOutsandingRequests"  hits="6"  signature="()V" >
+				<lines><line number="13"  hits="6" /></lines>
 			</method>
-			<method name="completeOutstandingRequest"  hits="1"  signature="()V" >
-				<lines><line number="20"  hits="1" /></lines>
+			<method name="completeOutstandingRequest"  hits="5"  signature="()V" >
+				<lines><line number="20"  hits="5" /></lines>
 			</method>
-			<method name="notifyWhenNoOutstandingRequests"  hits="1"  signature="()V" >
-				<lines><line number="33"  hits="1" /></lines>
+			<method name="notifyWhenNoOutstandingRequests"  hits="5"  signature="()V" >
+				<lines><line number="33"  hits="5" /></lines>
 			</method>
 		</methods>
 		<lines>
-			<line number="0"  hits="1"  branch="false" />
-			<line number="29"  hits="0"  branch="false" />
+			<line number="0"  hits="6"  branch="false" />
+			<line number="31"  hits="3"  branch="false" />
 			<line number="43"  hits="1"  branch="false" />
 		</lines>
 		</class>
@@ -79,6 +79,10 @@
 		</methods>
 		<lines>
 			<line number="0"  hits="3"  branch="false" />
+			<line number="1"  hits="1"  branch="false" />
+			<line number="3"  hits="1"  branch="false" />
+			<line number="4"  hits="1"  branch="false" />
+			<line number="5"  hits="1"  branch="false" />
 			<line number="7"  hits="1"  branch="false" />
 			<line number="9"  hits="1"  branch="false" />
 			<line number="10"  hits="1"  branch="false" />
@@ -87,12 +91,12 @@
 		</class>
 		<class name="templates.js"  filename="src/templates.js"  line-rate="1"  branch-rate="1" >
 		<methods>
-			<method name="(anonymous_1)"  hits="1"  signature="()V" >
-				<lines><line number="3"  hits="1" /></lines>
+			<method name="(anonymous_1)"  hits="5"  signature="()V" >
+				<lines><line number="3"  hits="5" /></lines>
 			</method>
 		</methods>
 		<lines>
-			<line number="0"  hits="1"  branch="false" />
+			<line number="0"  hits="5"  branch="false" />
 			<line number="1"  hits="1"  branch="false" />
 		</lines>
 		</class>
