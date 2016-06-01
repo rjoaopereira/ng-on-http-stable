@@ -4,29 +4,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
 function OnHttpStableConfig($httpProvider) {
-    console.log("OnHttpStableConfig");
-    $httpProvider.interceptors.push(['$q', 'OnHttpStableService', function OutstandingRequestsInterceptor($q, onHttpStableService) {
-        return {
-            request: function request(config) {
-                onHttpStableService.increaseOutsandingRequests();
-                return config;
-            },
-            requestError: function requestError(rejection) {
-                onHttpStableService.completeOutstandingRequest();
-                return $q.reject(rejection);
-            },
-            response: function response(_response) {
-                onHttpStableService.completeOutstandingRequest();
-                return _response;
-            },
-            responseError: function responseError(rejection) {
-                onHttpStableService.completeOutstandingRequest();
-                return $q.reject(rejection);
-            }
-        };
-    }]);
+    $httpProvider.interceptors.push('OnHttpStableInterceptor');
 }
 
 OnHttpStableConfig.$inject = ['$httpProvider'];
@@ -61,58 +40,104 @@ ngOnHttpStableDirective.$inject = ['OnHttpStableService'];
 exports.default = ngOnHttpStableDirective;
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function OnHttpStableInterceptor($q, onHttpStableService) {
+
+    return {
+        request: function request(config) {
+            onHttpStableService.increaseOutsandingRequests();
+            return config;
+        },
+        requestError: function requestError(rejection) {
+            onHttpStableService.completeOutstandingRequest();
+            return $q.reject(rejection);
+        },
+        response: function response(_response) {
+            onHttpStableService.completeOutstandingRequest();
+            return _response;
+        },
+        responseError: function responseError(rejection) {
+            onHttpStableService.completeOutstandingRequest();
+            return $q.reject(rejection);
+        }
+    };
+}
+
+OnHttpStableInterceptor.$inject = ['$q', 'OnHttpStableService'];
+
+exports.default = OnHttpStableInterceptor;
+
+},{}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function OnHttpStableService() {
-    var outstandingRequestCount = 0;
-    var outstandingRequestCallbacks = [];
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var OnHttpStableService = function () {
+    function OnHttpStableService() {
+        _classCallCheck(this, OnHttpStableService);
+
+        this.outstandingRequestCount = 0;
+        this.outstandingRequestCallbacks = [];
+    }
 
     /**
      * @description increase the number of current requests
      */
-    function increaseOutsandingRequests() {
-        return ++outstandingRequestCount;
-    }
-    /**
-     * @description marks one request as completed
-     * if all pending requests are completed, all callbacks are called 
-     */
-    function completeOutstandingRequest() {
-        --outstandingRequestCount;
-        if (outstandingRequestCount === 0) {
-            while (outstandingRequestCallbacks.length) {
-                outstandingRequestCallbacks.pop()();
+
+
+    _createClass(OnHttpStableService, [{
+        key: "increaseOutsandingRequests",
+        value: function increaseOutsandingRequests() {
+            return ++this.outstandingRequestCount;
+        }
+        /**
+         * @description marks one request as completed
+         * if all pending requests are completed, all callbacks are called 
+         */
+
+    }, {
+        key: "completeOutstandingRequest",
+        value: function completeOutstandingRequest() {
+            --this.outstandingRequestCount;
+            if (this.outstandingRequestCount === 0) {
+                while (this.outstandingRequestCallbacks.length) {
+                    this.outstandingRequestCallbacks.pop()();
+                }
+            }
+            return this.outstandingRequestCount;
+        }
+        /**
+         * @description adds a function as callback
+         * to be called when all pending requests are finished
+         */
+
+    }, {
+        key: "notifyWhenStable",
+        value: function notifyWhenStable(callback) {
+            if (this.outstandingRequestCount === 0) {
+                callback();
+            } else {
+                this.outstandingRequestCallbacks.push(callback);
             }
         }
-        return outstandingRequestCount;
-    }
-    /**
-     * @description adds a function as callback
-     * to be called when all pending requests are finished
-     */
-    function notifyWhenNoOutstandingRequests(callback) {
-        if (outstandingRequestCount === 0) {
-            callback();
-        } else {
-            outstandingRequestCallbacks.push(callback);
-        }
-    }
+    }]);
 
-    return {
-        increaseOutsandingRequests: increaseOutsandingRequests,
-        completeOutstandingRequest: completeOutstandingRequest,
-        notifyWhenStable: notifyWhenNoOutstandingRequests
-    };
-}
-
-OnHttpStableService.$inject = [];
+    return OnHttpStableService;
+}();
 
 exports.default = OnHttpStableService;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 require('./templates.js');
@@ -129,23 +154,28 @@ var _ngOnHttpStableConfig = require('./ng-on-http-stable-config');
 
 var _ngOnHttpStableConfig2 = _interopRequireDefault(_ngOnHttpStableConfig);
 
+var _ngOnHttpStableInterceptor = require('./ng-on-http-stable-interceptor');
+
+var _ngOnHttpStableInterceptor2 = _interopRequireDefault(_ngOnHttpStableInterceptor);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = angular.module('ngOnHttpStable', ['ngOnHttpStableTemplates']);
 
 app.directive('ngOnHttpStable', _ngOnHttpStableDirective2.default);
 app.service('OnHttpStableService', _ngOnHttpStableService2.default);
+app.factory('OnHttpStableInterceptor', _ngOnHttpStableInterceptor2.default);
 
 app.config(_ngOnHttpStableConfig2.default);
 
-},{"./ng-on-http-stable-config":1,"./ng-on-http-stable-directive":2,"./ng-on-http-stable-service":3,"./templates.js":5}],5:[function(require,module,exports){
+},{"./ng-on-http-stable-config":1,"./ng-on-http-stable-directive":2,"./ng-on-http-stable-interceptor":3,"./ng-on-http-stable-service":4,"./templates.js":6}],6:[function(require,module,exports){
 "use strict";
 
 angular.module("ngOnHttpStableTemplates", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("ng-on-http-stable.html", "<ng-transclude ng-if=\"::ready\"></ng-transclude>");
 }]);
 
-},{}]},{},[4])
+},{}]},{},[5])
 
 
 //# sourceMappingURL=build.js.map

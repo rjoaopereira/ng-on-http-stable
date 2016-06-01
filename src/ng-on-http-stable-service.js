@@ -1,45 +1,40 @@
-function OnHttpStableService() {
-    let outstandingRequestCount = 0;
-    let outstandingRequestCallbacks = [];
+class OnHttpStableService {
+
+    constructor() {
+        this.outstandingRequestCount     = 0;
+        this.outstandingRequestCallbacks = [];
+    }
 
     /**
      * @description increase the number of current requests
      */
-    function increaseOutsandingRequests() {
-        return ++outstandingRequestCount;
+    increaseOutsandingRequests() {
+        return ++this.outstandingRequestCount;
     }
     /**
      * @description marks one request as completed
      * if all pending requests are completed, all callbacks are called 
      */
-    function completeOutstandingRequest() {
-        --outstandingRequestCount;
-        if (outstandingRequestCount === 0) {
-            while (outstandingRequestCallbacks.length) {
-                outstandingRequestCallbacks.pop()();
+    completeOutstandingRequest() {
+        --this.outstandingRequestCount;
+        if (this.outstandingRequestCount === 0) {
+            while (this.outstandingRequestCallbacks.length) {
+                this.outstandingRequestCallbacks.pop()();
             }
         }
-        return outstandingRequestCount;
+        return this.outstandingRequestCount;
     }
     /**
      * @description adds a function as callback
      * to be called when all pending requests are finished
      */
-    function notifyWhenNoOutstandingRequests(callback) {
-        if (outstandingRequestCount === 0) {
+    notifyWhenStable(callback) {
+        if (this.outstandingRequestCount === 0) {
             callback();
         } else {
-            outstandingRequestCallbacks.push(callback);
+            this.outstandingRequestCallbacks.push(callback);
         }
     }
-
-    return {
-        increaseOutsandingRequests: increaseOutsandingRequests,
-        completeOutstandingRequest: completeOutstandingRequest,
-        notifyWhenStable          : notifyWhenNoOutstandingRequests
-    };
 }
-
-OnHttpStableService.$inject = [];
 
 export default OnHttpStableService;

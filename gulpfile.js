@@ -101,12 +101,7 @@ function test(done) {
 
         coverageReporter: {
             dir: 'reports',
-            reporters: [
-                { type: 'lcov', subdir: 'lcov' },
-                { type: 'html', subdir: 'html' },
-                { type: 'cobertura', subdir: '.' }
-            ],
-            sourceStore : istanbul.Store.create('fslookup')
+            reporters: [{ type: 'html', subdir: 'html' }]
         },
 
         proxies: {},
@@ -147,7 +142,7 @@ function test(done) {
 
         colors: true,
 
-        logLevel: 'LOG_DEBUG'
+        // logLevel: 'LOG_DEBUG'
 
     };
     return new Server(options, function (exitStatus) {
