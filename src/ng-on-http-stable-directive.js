@@ -4,6 +4,7 @@ function ngOnHttpStableDirective(
 
     function link($scope) {
         onHttpStableService.notifyWhenStable(function () {
+            console.log("ready");
             $scope.ready = true;
         });
     }
@@ -12,7 +13,7 @@ function ngOnHttpStableDirective(
         restrict: 'E',
         transclude: true,
         link: link,
-        templateUrl: 'ng-on-http-stable.html',
+        template: '<ng-transclude ng-if="::ready"></ng-transclude>',
         scope: {}
     };
 }

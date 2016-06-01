@@ -16,11 +16,11 @@ describe('OnHttpStableDirective', () => {
             $scope = $rootScope.$new();
             onHttpStable = _OnHttpStableService_;
         });
-
-        element = $compile('<ng-on-http-stable></ng-on-http-stable>')($scope);
+        
     });
     describe('when the page has finished the outstanding requests', () => {
         beforeEach(() => {
+            element = $compile('<ng-on-http-stable></ng-on-http-stable>')($scope);
             $scope.$apply();
         });
 
@@ -32,6 +32,7 @@ describe('OnHttpStableDirective', () => {
     describe('when the page has not finished the outstanding requests', () => {
         beforeEach(() => {
             spyOn(onHttpStable, 'notifyWhenStable');
+            element = $compile('<ng-on-http-stable></ng-on-http-stable>')($scope);
             $scope.$apply();
         });
 

@@ -5,23 +5,13 @@ var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var babelify = require('babelify');
-var ngTemplates = require('gulp-ng-templates');
+var uglify = require('gulp-uglify');
 var del = require('del');
 var htmlmin = require('gulp-htmlmin');
 var Server = require('karma').Server;
 var isparta = require('isparta');
 var istanbul = require('istanbul');
 var browserifyIstanbul = require('browserify-istanbul');
-
-function templates() {
-    return gulp.src('./src/**/*.html')
-        .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(ngTemplates({
-            filename: 'templates.js',
-            module: 'ngOnHttpStableTemplates',
-        }))
-        .pipe(gulp.dest('./src'));
-}
 
 function compile(watch) {
     var bundler = watchify(browserify({
@@ -35,8 +25,9 @@ function compile(watch) {
                 console.error(err);
                 this.emit('end');
             })
-            .pipe(source('build.js'))
+            .pipe(source('ng-on-http-stable.js'))
             .pipe(buffer())
+            .pipe(uglify())
             .pipe(sourcemaps.init({ loadMaps: true }))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('./dist'));
@@ -151,8 +142,7 @@ function test(done) {
 }
 
 gulp.task('clean', clean);
-gulp.task('templates', ['clean'], templates);
-gulp.task('build', ['templates'], function () { return compile(); });
+gulp.task('build', function () { return compile(); });
 gulp.task('watch', function () { return watch(); });
 gulp.task('default', ['watch']);
 gulp.task('test', function (done) { return test(done); });

@@ -6,7 +6,7 @@
     "Ricardo Pereira <rjoaopereira@gmail.com>"
   ],
   "description": "angular directive that renders when the $http service has no oustanding requests",
-  "main": "dist/build.js",
+  "main": "dist/ng-on-http-stable.js",
   "keywords": [
     "angular",
     "render",

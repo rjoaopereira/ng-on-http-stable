@@ -1,1 +1,0 @@
-angular.module("ngOnHttpStableTemplates", []).run(["$templateCache", function($templateCache) {$templateCache.put("ng-on-http-stable.html","<ng-transclude ng-if=\"::ready\"></ng-transclude>");}]);
