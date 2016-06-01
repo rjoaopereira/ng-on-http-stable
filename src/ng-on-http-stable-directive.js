@@ -4,7 +4,6 @@ function ngOnHttpStableDirective(
 
     function link($scope) {
         onHttpStableService.notifyWhenStable(function () {
-            console.log("ready");
             $scope.ready = true;
         });
     }
