@@ -2,7 +2,7 @@
 angular directive that renders when there are no $http outstanding requests 
 
 #Purpose
-This directive was created to delay the downloading of tracking scripts, it can however be used for any other purpose.
+This directive was created to delay the downloading of tracking scripts, it can, however, be used for any other purpose.
 
 ##Usage
 The directive should be placed in after the code which will be making the requests. Making it the last element in your page is always a good approach :).
