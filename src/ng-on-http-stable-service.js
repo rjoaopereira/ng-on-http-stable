@@ -14,7 +14,7 @@ class OnHttpStableService {
             return this.$browser.notifyWhenNoOutstandingRequests(callback);
         }
 
-        const unwatch = this.$rootScope.$watch(() => this.$http.pendingRequests.length, (oldVal, newVal) => {
+        const unwatch = this.$rootScope.$watch(() => this.$http.pendingRequests.length, (newVal, oldVal) => {
             if (newVal === 0) {
                 callback();
                 unwatch();
