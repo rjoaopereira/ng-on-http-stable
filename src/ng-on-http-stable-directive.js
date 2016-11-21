@@ -1,10 +1,10 @@
-function ngOnHttpStableDirective(
-    onHttpStableService
-) {
+function ngOnHttpStableDirective(onHttpStableService) {
 
     function link($scope) {
         onHttpStableService.notifyWhenStable(function () {
-            $scope.ready = true;
+            $scope.$applyAsync(function () {
+                $scope.ready = true;
+            })
         });
     }
 

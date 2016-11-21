@@ -1,58 +1,69 @@
 describe('OnHttpStableService', () => {
 
     let victim;
+    let $http;
+    let $rootScope;
+    let $browser;
     let notificationSpy;
+    let browserSpy;
+    let rootScopeSpy;
 
-    beforeEach(angular.mock.module('ngOnHttpStable'));
+    beforeEach(angular.mock.module('ngOnHttpStable', [
+        '$provide',
+        function ($provide) {
+            $browser = {
+                notifyWhenNoOutstandingRequests : angular.noop,
+                $$applicationDestroyed: angular.noop,
+                $$checkUrlChange: angular.noop
+            }
+            $provide.value('$browser', $browser)
+        }]));
 
     beforeEach(() => {
         inject([
-            'OnHttpStableService',
-            function (_OnHttpStableService_) {
-                victim = _OnHttpStableService_;
+            '$injector',
+            function ($injector) {
+                $http = $injector.get('$http')
+                $rootScope = $injector.get('$rootScope')
+                victim = $injector.get('OnHttpStableService');
             }]);
-
         notificationSpy = jasmine.createSpy('notificationSpy');
     });
 
-    describe('when no requests are added', () => {
+    describe('when $browser.notifyWhenNoOutstandingRequests is available', () => {
         beforeEach(() => {
+            spyOn($browser, 'notifyWhenNoOutstandingRequests');
             victim.notifyWhenStable(notificationSpy);
         });
 
         it('should notify immediately', () => {
-            expect(notificationSpy).toHaveBeenCalled();
+            expect($browser.notifyWhenNoOutstandingRequests).toHaveBeenCalledWith(notificationSpy);
         });
     });
-
-    describe('when requests are added', () => {
-
+    describe('when $browser.notifyWhenNoOutstandingRequests is not available', () => {
         beforeEach(() => {
-            victim.increaseOutsandingRequests();
-            victim.increaseOutsandingRequests();
-            victim.notifyWhenStable(notificationSpy);
+            spyOn($rootScope, '$watch').and.callThrough();
+            delete $browser.notifyWhenNoOutstandingRequests;
         });
-
-        describe('when not all requests are completed', () => {
+        describe('when there are pending requests', () => {
             beforeEach(() => {
-                victim.completeOutstandingRequest();
-            });
-
-            it('should not notify', () => {
+                $http.pendingRequests.push('pending');
+                victim.notifyWhenStable(notificationSpy);
+                $rootScope.$apply();
+            })
+            it('should not execute the callback', () => {
                 expect(notificationSpy).not.toHaveBeenCalled();
             });
         });
-
-        describe('when all requests are completed', () => {
+        describe('when there are no pending requests', () => {
             beforeEach(() => {
-                victim.completeOutstandingRequest();
-                victim.completeOutstandingRequest();
                 victim.notifyWhenStable(notificationSpy);
-            });
-
-            it('should notify', () => {
+                $rootScope.$apply();
+            })
+            it('should execute the callback', () => {
                 expect(notificationSpy).toHaveBeenCalled();
             });
         });
+        
     });
 });
