@@ -10,7 +10,7 @@ The directive should be placed in after the code which will be making the reques
 ##directive
 ```html
 <ng-on-http-stable>
-  <p>This will render when the $http service as no more pending calls</p>
+  <p>This will render when the $http service has no more pending calls</p>
 </ng-on-http-stable>
 ```
 
